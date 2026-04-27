@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Online Examination</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+/* 🌌 Clean Background */
+body{
+    height:100vh;
+    overflow:hidden;
+    background: linear-gradient(135deg,#0f172a,#1e293b,#0f172a);
+}
+
+/* Layout */
+.container{
+    display:flex;
+    height:100vh;
+}
+
+.left{
+    flex:1;
+    background:url("BG.JPEG") center/cover no-repeat;
+}
+
+.right{
+    flex:1;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* 💎 Glass Card */
+.card{
+    width:420px;
+    padding:45px;
+    border-radius:20px;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(15px);
+    border:1px solid rgba(255,255,255,0.2);
+
+    text-align:center;
+
+    box-shadow: 0 0 25px rgba(59,130,246,0.2);
+    transition:0.4s;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+    box-shadow: 0 0 40px rgba(59,130,246,0.4);
+}
+
+/* Heading */
+.card h2{
+    font-size:26px;
+    color:#e2e8f0;
+    margin-bottom:10px;
+}
+
+/* Text */
+.card p{
+    color:#94a3b8;
+    font-size:14px;
+}
+
+/* Buttons */
+button{
+    margin-top:20px;
+    padding:12px 28px;
+    border:none;
+    border-radius:10px;
+    background:#3b82f6;
+    color:white;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#2563eb;
+    transform:translateY(-2px);
+    box-shadow:0 8px 20px rgba(59,130,246,0.5);
+}
+
+button:active{
+    transform:scale(0.95);
+}
+
+/* Logout */
+.logout{
+    background:#ef4444 !important;
+}
+
+.logout:hover{
+    background:#dc2626;
+    box-shadow:0 8px 20px rgba(239,68,68,0.5);
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="left"></div>
+
+<div class="right">
+<div id="cardContainer"></div>
+</div>
+
+</div>
+
+<script>
+
+let container = document.getElementById("cardContainer");
+let student = localStorage.getItem("student");
+
+/* INITIAL */
+if(student){
+showDashboard();
+}else{
+showLoginCard();
+}
+
+/* 🏠 DASHBOARD */
+function showDashboard(){
+container.innerHTML = `
+<div class="card">
+<h2>Welcome, ${student}</h2>
+<p>You are logged in</p>
+<button onclick="showSubjects()">Start Exam</button>
+<button class="logout" onclick="logout()">Logout</button>
+</div>
+`;
+}
+
+/* 📚 SUBJECTS (YOUR REQUIRED LIST) */
+function showSubjects(){
+container.innerHTML = `
+<div class="card">
+<h2>Select Subject</h2>
+<p>Choose a subject to begin</p>
+
+<button onclick="startExam('c')">C</button>
+<button onclick="startExam('python')">Python</button>
+<button onclick="startExam('java')">Java</button>
+<button onclick="startExam('frontend')">Front End</button>
+<button onclick="startExam('dbms')">DBMS</button>
+
+<button class="logout" onclick="showDashboard()">⬅ Back</button>
+</div>
+`;
+}
+
+function startExam(subject){
+    localStorage.setItem("subject", subject);
+    window.location.href = "instructions.html";
+}
+
+/* 🔓 LOGOUT */
+function logout(){
+localStorage.removeItem("student");
+location.reload();
+}
+
+/* 🔐 LOGIN CARD */
+function showLoginCard(){
+container.innerHTML = `
+<div class="card">
+<h2>Student Login</h2>
+<p>Login to start your examination</p>
+<button onclick="location.href='login.html'">Login</button>
+</div>
+`;
+}
+
+</script>
+
+</body>
+</html>
